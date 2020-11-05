@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DNASequencer.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">lab4</a> &gt; <a href="index.source.html" class="el_package">cs.lab</a> &gt; <span class="el_source">DNASequencer.java</span></div><h1>DNASequencer.java</h1><pre class="source lang-java linenums">package cs.lab;
+
+import java.util.List;
+import java.util.logging.Logger;
+
+public class  DNASequencer {
+
+<span class="fc" id="L8">    static final Logger logger = Logger.getLogger(DNASequencer.class.getName());</span>
+<span class="fc" id="L9">    public DNASequencer() {</span>
+<span class="fc" id="L10">        logger.info(&quot;Starting sequencer...&quot;);</span>
+<span class="fc" id="L11">    }</span>
+   
+
+    public static String scsLength(String first, String second, int m, int n)
+    {
+<span class="fc bfc" id="L16" title="All 4 branches covered.">        if (m == 0 || n == 0) {</span>
+<span class="fc" id="L17">		return first.substring(0,m) + second.substring(0,n);</span>
+	}
+
+		
+<span class="fc bfc" id="L21" title="All 2 branches covered.">	if (first.charAt(m - 1) == second.charAt(n - 1)) {</span>
+<span class="fc" id="L22">		return scsLength(first, second, m - 1, n - 1) + second.charAt(n - 1);</span>
+	}
+
+<span class="fc" id="L25">	String resultone = scsLength(first, second, m, n - 1) + second.charAt(n - 1);</span>
+<span class="fc" id="L26">	String resulttwo = scsLength(first, second, m - 1, n) + first.charAt(m - 1);</span>
+		
+<span class="fc bfc" id="L28" title="All 2 branches covered.">	if(resultone.length()&gt; resulttwo.length()) return resulttwo;</span>
+<span class="fc" id="L29">	else return resultone;</span>
+    }
+		
+    public String calculate(List&lt;String&gt; parts) throws SubseqLength, ListSize {
+	
+<span class="fc" id="L34">	String partsone=parts.get(0);</span>
+<span class="fc" id="L35">	String partstwo=parts.get(1);</span>
+<span class="fc" id="L36">	String partsthree=parts.get(2);</span>
+
+<span class="fc bfc" id="L38" title="All 2 branches covered.">	if(parts.size() &gt; 160000 ) throw new ListSize(&quot;Too many subsequences.&quot;);</span>
+	
+<span class="fc bfc" id="L40" title="All 2 branches covered.">	for( String cur : parts ){</span>
+<span class="fc bfc" id="L41" title="All 2 branches covered.">		if( cur.length() &gt; 200 ) {</span>
+<span class="fc" id="L42">			throw new SubseqLength(&quot;Very long subsequence&quot;);</span>
+		}
+					 
+<span class="fc" id="L45">	}</span>
+	
+<span class="fc" id="L47">	String tempresult =scsLength(partsone, partstwo, partsone.length(), partstwo.length());</span>
+	
+	
+<span class="fc" id="L50">	return scsLength(tempresult, partsthree, tempresult.length(), partsthree.length());</span>
+			
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.2.201808211720</span></div></body></html>
